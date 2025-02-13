@@ -4,9 +4,32 @@
   <mat-form-field class="example-full-width">
     <input matInput placeholder="Add title and time">
   </mat-form-field>
-  <h3>Develop across all platforms</h3>
+
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Choose a date</mat-label>
+    <input matInput [matDatepicker]="picker" (click)="picker.open()">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <!-- <mat-datepicker-toggle matIconSuffix [for]="picker"> -->
+    <!-- <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon> -->
+    <!-- </mat-datepicker-toggle> -->
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Choose Time</mat-label>
+    <input matInput type="time" [(ngModel)]="TimeFrom">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Choose Time</mat-label>
+    <input matInput type="time" [(ngModel)]="timeTo">
+  </mat-form-field>
+                                                       
+
+  <!-- <h3>Develop across all platforms</h3>
   <p>Learn one way to build applications with Angular and reuse your code and abilities to build
-    apps for any deployment target. For web, mobile web, native mobile and native desktop.</p>
+    apps for any deployment target. For web, mobile web, native mobile and native desktop.</p> -->
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>

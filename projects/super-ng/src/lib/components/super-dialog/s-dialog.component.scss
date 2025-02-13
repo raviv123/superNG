@@ -1,0 +1,14 @@
+.no-year-dropdown .mat-calendar-period-button {
+    pointer-events: none;
+    color: transparent;
+  }
+  .no-year-dropdown .mat-calendar-period-button:hover {
+    background: none;
+  }
+
+  ::ng-deep .mat-calendar-period-button {
+    pointer-events: none;
+    color: black !important;
+    cursor: default !important;
+  }
+  
