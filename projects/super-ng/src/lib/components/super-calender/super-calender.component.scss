@@ -178,7 +178,44 @@ full-calendar.fc.fc-media-screen {
   .fc-view-harness {
     border-radius: 28px;
     overflow: hidden;
-    // border-left: 1px solid #dde3ea;
+    table {
+      border: none;
+      thead {
+        background-color: var(--primary-white);
+        tr {
+          th {
+            border-width: 0px 1px 0px 0px!important;
+            .fc-scrollgrid-sync-inner {
+              a {
+                font-size: 11px;
+                font-weight: var(--font-500);
+              }
+            }
+          }
+        }
+      }
+    }
+    tbody {
+      tr {
+        td {
+          border-left: unset;
+          .fc-daygrid-day-events{
+              min-height: auto;
+          }
+        }
+        &:last-child {
+          border-right: unset;
+        }
+      }
+      background-color: var(--primary-white);
+      .fc-daygrid-day-frame {
+        .fc-daygrid-day-top {
+          justify-content: center;
+          font-size: var(--text-12);
+          font-weight: var(--font-500);
+        }
+      }
+    }
   }
   div.fc-header-toolbar.fc-toolbar-ltr {
     justify-content: unset;
@@ -228,42 +265,25 @@ full-calendar.fc.fc-media-screen {
     }
   }
 
-  //
-  .fc-view-harness {
-    table {
-      border: none;
-      thead {
-        background-color: var(--primary-white);
-        tr {
-          th {
-            border-width: 0px 1px 0px 0px!important;
-            .fc-scrollgrid-sync-inner {
-              a {
-                font-size: 11px;
-                font-weight: var(--font-500);
+
+}
+
+
+// mat-mdc-dialog-panel
+.mat-mdc-dialog-panel{
+  mat-dialog-container{
+      .mdc-dialog__container{
+        .mdc-dialog__surface{
+          mat-dialog-content{
+            mat-form-field{
+              width: 100%;
+              .mat-mdc-text-field-wrapper{
+                background-color: transparent;
+                padding:0;
               }
             }
           }
         }
       }
-    }
-    tbody {
-      tr {
-        td {
-          border-left: unset;
-        }
-        &:last-child {
-          border-right: unset;
-        }
-      }
-      background-color: var(--primary-white);
-      .fc-daygrid-day-frame {
-        .fc-daygrid-day-top {
-          justify-content: center;
-          font-size: var(--text-12);
-          font-weight: var(--font-500);
-        }
-      }
-    }
   }
 }
