@@ -1,0 +1,15 @@
+
+<div class="cs-row">
+  <div class="col-4">
+<button mat-button (click)="onCreateClick()" class="create-event"> Create</button>
+` `
+<mat-card class="demo-inline-calendar-card">
+  <mat-calendar #datepicker ngSkipHydration [(selected)]="selected"
+  (selectedChange)="onDateSelect($event)"></mat-calendar>
+</mat-card>
+</div>
+<div class="col-9">
+    <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+</div>
+</div>
+
