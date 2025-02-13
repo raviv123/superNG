@@ -17,8 +17,10 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    margin: 20px 0px;
     mat-form-field.mat-mdc-form-field{
-      width: calc(100% / 2 - 6px)!important;
+      width: 40%!important;
+      flex: 1;
       .mat-mdc-form-field-flex{
         .mat-mdc-form-field-infix{
           .mat-mdc-input-element{
@@ -27,5 +29,26 @@
           }
         }
       }
+      .mat-mdc-form-field-subscript-wrapper{
+        display: none;
+      }
+      .mat-mdc-form-field-infix{
+        background-color: #dde3ea;
+      }
     }
+    .time-field{
+      width: 50%;
+      display: flex;
+      align-items: center;
+      .divider{
+        margin: 0px 10px;
+        font-size: 25px;
+      }
+    }
+  }
+  mat-datepicker-content{
+    mat-calendar.mat-calendar{
+      height: auto!important;
+      
+    } 
   }
