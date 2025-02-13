@@ -5,17 +5,13 @@
     <input matInput placeholder="Add title">
   </mat-form-field>
 
-
+<div class="fields-row">
   <mat-form-field class="example-full-width">
     <mat-label>Choose a date</mat-label>
     <input matInput [matDatepicker]="picker" (click)="picker.open()">
     <mat-hint>MM/DD/YYYY</mat-hint>
-    <!-- <mat-datepicker-toggle matIconSuffix [for]="picker"> -->
-    <!-- <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon> -->
-    <!-- </mat-datepicker-toggle> -->
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
-
   <mat-form-field appearance="outline">
     <mat-label>Choose Time</mat-label>
     <input matInput type="time" [(ngModel)]="TimeFrom">
@@ -25,12 +21,12 @@
     <mat-label>Choose Time</mat-label>
     <input matInput type="time" [(ngModel)]="timeTo">
   </mat-form-field> 
-  
+</div>
   <mat-form-field class="example-full-width">
     <textarea matInput placeholder="Add description"></textarea>
   </mat-form-field>
-</mat-dialog-content>
 
+</mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
   <button mat-button [mat-dialog-close]="true" (click)="closeDialog()" cdkFocusInitial>Save</button>

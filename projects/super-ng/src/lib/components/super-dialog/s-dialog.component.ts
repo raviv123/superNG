@@ -1,4 +1,4 @@
-import { Component, Inject, Output, output, ViewChild, viewChild } from '@angular/core';
+import { Component, Inject, Output, output, ViewChild, viewChild, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -15,7 +15,8 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule, MatFormFieldModule, FormsModule, MatInputModule, MatDatepickerModule,NgxMatTimepickerModule, NgxMatTimepickerComponent,NgxMatTimepickerDirective,NgxMatTimepickerModule, MatMenuModule,CommonModule ],
   templateUrl: './s-dialog.component.html',
-  styleUrl: './s-dialog.component.scss'
+  styleUrl: './s-dialog.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class SuperDialogComponent {
 

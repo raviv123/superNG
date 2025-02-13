@@ -12,3 +12,20 @@
     cursor: default !important;
   }
   
+
+  .fields-row{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    mat-form-field.mat-mdc-form-field{
+      width: calc(100% / 2 - 6px)!important;
+      .mat-mdc-form-field-flex{
+        .mat-mdc-form-field-infix{
+          .mat-mdc-input-element{
+            font-size: 15px;
+            padding: 0px 10px;
+          }
+        }
+      }
+    }
+  }
