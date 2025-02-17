@@ -15,13 +15,17 @@ import timeGridPlugin from '@fullcalendar/timeGrid';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { SuperDialogComponent } from '../../../public-api';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 
 
 @Component({
   selector: 's-calender',
   standalone: true,
-  imports: [FullCalendarModule, MatCardModule, MatDatepickerModule, MatNativeDateModule, CommonModule, FormsModule, MatTableModule, MatButtonModule, MatIconModule, MatDialogModule, SuperDialogComponent],
+  imports: [FullCalendarModule, MatCardModule, MatDatepickerModule, MatMenuModule,MatFormFieldModule, MatSelectModule, MatInputModule, MatNativeDateModule, CommonModule, FormsModule, MatTableModule, MatButtonModule, MatIconModule, MatDialogModule, SuperDialogComponent],
   templateUrl: './super-calender.component.html',
   styleUrl: './super-calender.component.scss',
   providers: [provideNativeDateAdapter()],
@@ -33,6 +37,12 @@ export class SuperCalenderComponent implements OnInit, AfterViewInit {
   @ViewChild('datepicker') datepicker!: MatCalendar<any>;
 
   @Input() events: any[] = [];
+
+  foods: any[] = [
+    {value: 'steak-0', viewValue: '10:00AM'},
+    {value: 'pizza-1', viewValue: '10:00AM'},
+    {value: 'tacos-2', viewValue: '10:00AM'},
+  ];
 
   calendarOptions: CalendarOptions = {};
   selected = model<Date | null>(null);
@@ -111,12 +121,12 @@ export class SuperCalenderComponent implements OnInit, AfterViewInit {
   }
 
   onCreateClick() {
-    this.openDialog()
+    // this.openDialog()
   }
 
-  handleDateClick(arg: any) {
+  handleDateClick(event: any) {
     debugger
-    this.openDialog()
+    this.openDialog(event)
   }
 
   handleSelect(arg: any) {
@@ -128,8 +138,13 @@ export class SuperCalenderComponent implements OnInit, AfterViewInit {
 
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(SuperDialogComponent);
+  openDialog(event: any) {
+    const dialogRef = this.dialog.open(SuperDialogComponent, {
+      data: {
+        event: event,
+      },
+      // width: '250px',
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       const calendarApi = this.calendarComponent.getApi();

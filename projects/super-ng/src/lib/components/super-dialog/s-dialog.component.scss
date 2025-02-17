@@ -11,44 +11,56 @@
     color: black !important;
     cursor: default !important;
   }
-  
-
-  .fields-row{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin: 20px 0px;
-    mat-form-field.mat-mdc-form-field{
-      width: 40%!important;
-      flex: 1;
-      .mat-mdc-form-field-flex{
-        .mat-mdc-form-field-infix{
-          .mat-mdc-input-element{
-            font-size: 15px;
-            padding: 0px 10px;
-          }
-        }
-      }
-      .mat-mdc-form-field-subscript-wrapper{
-        display: none;
-      }
-      .mat-mdc-form-field-infix{
-        background-color: #dde3ea;
-      }
-    }
-    .time-field{
-      width: 50%;
-      display: flex;
-      align-items: center;
-      .divider{
-        margin: 0px 10px;
-        font-size: 25px;
-      }
-    }
-  }
   mat-datepicker-content{
     mat-calendar.mat-calendar{
       height: auto!important;
       
     } 
   }
+.calaendarDateWrapper {
+    display: flex;
+    align-items: center;
+    grid-gap: 15px;
+    margin-bottom: 10px;
+    .calaendarDateTime {
+      display: flex;
+      grid-gap: 15px;
+      align-items: center;
+      .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+      }
+      .mat-mdc-form-field-infix { 
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      span.divider {
+        width: 25px;
+        height: 1px;
+        background-color: #757575;
+      }
+      input {
+        font-size: 16px !important;
+        font-weight: 400 !important;
+      }
+      .calaendarTime {
+        display: flex;
+        grid-gap: 15px;
+        align-items: center;
+        .mat-mdc-form-field-infix {
+          width: 100px;
+        }
+      }
+    }
+}
+.weekField {
+  mat-form-field {
+    width: auto !important;
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
+    .mat-mdc-form-field-infix { 
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
+}

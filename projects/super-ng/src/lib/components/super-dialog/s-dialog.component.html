@@ -4,22 +4,64 @@
   <mat-form-field class="example-full-width">
     <input matInput placeholder="Add title">
   </mat-form-field>
+  <div class="calaendarDateWrapper">
+    <mat-icon>access_time</mat-icon>
+    <ng-container *ngIf="allDaySelected">
+      <div class="calaendarDateTime">
+        <mat-form-field class="example-full-width">
+          <input matInput [matDatepicker]="picker" [(ngModel)]="dateFrom" (click)="picker.open()">
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <span class="divider"></span>
+        <mat-form-field class="example-full-width">
+          <input matInput [matDatepicker]="picker" [(ngModel)]="dateTo" (click)="picker.open()">
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </ng-container>
+  
+    <ng-container *ngIf="!allDaySelected">
+      <div class="fields-row calaendarDateTime">
+        <mat-form-field class="example-full-width">
+          <input matInput [matDatepicker]="picker" [(ngModel)]="date" (click)="picker.open()">
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <div class="time-field calaendarTime">
+  
+          <mat-form-field>
+            <mat-select>
+              @for (food of foods; track food) {
+              <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <span class="divider"></span>
+  
+  
+          <mat-form-field>
+            <mat-select>
+              @for (food of foods; track food) {
+              <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </ng-container>
+  </div>
 
-<div class="fields-row">
-  <mat-form-field class="example-full-width">
-    <input matInput [matDatepicker]="picker" (click)="picker.open()">
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-  <div class="time-field">
-  <mat-form-field appearance="outline" class=""> 
-    <input matInput type="time" [(ngModel)]="TimeFrom">
-  </mat-form-field>
-<span class="divider">-</span>
-  <mat-form-field appearance="outline">
-    <input matInput type="time" [(ngModel)]="timeTo">
-  </mat-form-field> 
-</div>
-</div>
+
+  <mat-checkbox (change)="onCheckboxChange($event)" [(ngModel)]="allDaySelected" class="example-margin">All
+    day</mat-checkbox>
+  <div class="weekField">
+    <mat-form-field>
+      <mat-select>
+        @for (food of foods; track food) {
+        <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
   <mat-form-field class="example-full-width">
     <textarea matInput placeholder="Add description"></textarea>
   </mat-form-field>
