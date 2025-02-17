@@ -312,16 +312,39 @@ full-calendar.fc.fc-media-screen {
     }
   }
 }
+
+// day calender
 .dayView {
-  position: absolute;
+    position: absolute;
     right: 20px;
     border-radius: 40px;
     overflow: hidden;
+  .mat-mdc-text-field-wrapper.mdc-text-field{
+    background-color:#ececec;
+    
+  }
   .mat-mdc-form-field-infix {
     padding: 8px !important;
     min-height: inherit !important;
+    width: 120px;
   }
   .mat-mdc-form-field-subscript-wrapper, .mdc-line-ripple {
     display:none;
   }
+}
+.cdk-overlay-container{
+  .mat-mdc-select-panel{
+    background-color: #ffffff;
+    padding:0; 
+    mat-option{
+      min-height:40px;
+      .mdc-list-item__primary-text{
+        font-size:14px;
+      }
+    }
+  }
+
+}
+.cdk-global-scrollblock{
+  overflow: hidden;
 }
