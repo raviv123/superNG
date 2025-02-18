@@ -18,7 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 
 
 
@@ -38,11 +38,13 @@ export class SuperCalenderComponent implements OnInit, AfterViewInit {
 
   @Input() events: any[] = [];
 
-  foods: any[] = [
-    {value: 'steak-0', viewValue: '10:00AM'},
-    {value: 'pizza-1', viewValue: '10:00AM'},
-    {value: 'tacos-2', viewValue: '10:00AM'},
+  calenderViews: any[] = [
+    { value: 'dayGridMonth', viewValue: 'Month' },
+    { value: 'timeGridWeek', viewValue: 'Week' },
+    { value: 'timeGridDay', viewValue: 'Day' },
   ];
+
+  selectedView: string = '';
 
   calendarOptions: CalendarOptions = {};
   selected = model<Date | null>(null);
@@ -71,6 +73,7 @@ export class SuperCalenderComponent implements OnInit, AfterViewInit {
   }
 
   intialize() {
+    this.selectedView = this.calenderViews[0].value
     this.calendarOptions = {
       plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
       nowIndicator: true,
@@ -108,6 +111,11 @@ export class SuperCalenderComponent implements OnInit, AfterViewInit {
       // { title: 'Conference', start: '2025-02-08', end: '2025-02-10' }
       // ]
     };
+  }
+
+  onViewChange(event: MatSelectChange) {
+    const calendarApi = this.calendarComponent.getApi();
+    calendarApi.changeView(event.value);
   }
 
   handleEventClick() {
