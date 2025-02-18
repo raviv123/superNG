@@ -1,4 +1,3 @@
-<!-- <h2 mat-dialog-title>Install Angular</h2> -->
 <mat-dialog-content class="mat-typography">
 
   <mat-form-field class="example-full-width">
@@ -6,42 +5,44 @@
   </mat-form-field>
   <div class="calaendarDateWrapper">
     <mat-icon>access_time</mat-icon>
-    <ng-container *ngIf="allDaySelected">
+    <ng-container *ngIf="controls.allDaySelected">
       <div class="calaendarDateTime">
         <mat-form-field class="example-full-width">
-          <input matInput [matDatepicker]="picker" [(ngModel)]="dateFrom" (click)="picker.open()">
-          <mat-datepicker #picker></mat-datepicker>
+          <input matInput [matDatepicker]="pickerFrom" [(ngModel)]="controls.dateFrom" (click)="pickerFrom.open()"
+            (dateChange)="onFromDateChange($event)">
+          <mat-datepicker #pickerFrom></mat-datepicker>
         </mat-form-field>
         <span class="divider"></span>
+
         <mat-form-field class="example-full-width">
-          <input matInput [matDatepicker]="picker" [(ngModel)]="dateTo" (click)="picker.open()">
-          <mat-datepicker #picker></mat-datepicker>
+          <input matInput [matDatepicker]="pickerTo" [(ngModel)]="controls.dateTo" (click)="pickerTo.open()"
+            (dateChange)="onToDateChange($event)">
+          <mat-datepicker #pickerTo></mat-datepicker>
         </mat-form-field>
       </div>
     </ng-container>
-  
-    <ng-container *ngIf="!allDaySelected">
+
+    <ng-container *ngIf="!controls.allDaySelected">
       <div class="fields-row calaendarDateTime">
         <mat-form-field class="example-full-width">
-          <input matInput [matDatepicker]="picker" [(ngModel)]="date" (click)="picker.open()">
+          <input matInput [matDatepicker]="picker" [(ngModel)]="controls.date" (click)="picker.open()">
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <div class="time-field calaendarTime">
-  
+
           <mat-form-field>
-            <mat-select>
-              @for (food of foods; track food) {
-              <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+            <mat-select [(value)]="controls.timeFrom" (selectionChange)="onTimeSlotFromChange($event)">
+              @for (time of timeSlots; track time) {
+              <mat-option [value]="time.value">{{time.viewValue}}</mat-option>
               }
             </mat-select>
           </mat-form-field>
           <span class="divider"></span>
-  
-  
+
           <mat-form-field>
-            <mat-select>
-              @for (food of foods; track food) {
-              <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+            <mat-select [(value)]="controls.timeTo" (selectionChange)="onTimeSlotToChange($event)">
+              @for (time of timeSlots; track time) {
+              <mat-option [value]="time.value">{{time.viewValue}}</mat-option>
               }
             </mat-select>
           </mat-form-field>
@@ -51,13 +52,13 @@
   </div>
 
 
-  <mat-checkbox (change)="onCheckboxChange($event)" [(ngModel)]="allDaySelected" class="example-margin">All
+  <mat-checkbox (change)="onCheckboxChange($event)" [(ngModel)]="controls.allDaySelected" class="example-margin">All
     day</mat-checkbox>
   <div class="weekField">
     <mat-form-field>
-      <mat-select>
-        @for (food of foods; track food) {
-        <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+      <mat-select [(value)]="controls.eventReps" (selectionChange)="selectEventReps($event)">
+        @for (option of repeatEventsOptions; track option) {
+        <mat-option [value]="option.value">{{option.label}}</mat-option>
         }
       </mat-select>
     </mat-form-field>

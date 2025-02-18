@@ -1,64 +1,77 @@
 .no-year-dropdown .mat-calendar-period-button {
-    pointer-events: none;
-    color: transparent;
-  }
-  .no-year-dropdown .mat-calendar-period-button:hover {
-    background: none;
-  }
-
-  ::ng-deep .mat-calendar-period-button {
-    pointer-events: none;
-    color: black !important;
-    cursor: default !important;
-  }
-  mat-datepicker-content{
-    mat-calendar.mat-calendar{
-      height: auto!important;
-      
-    } 
-  }
-.calaendarDateWrapper {
-    display: flex;
-    align-items: center;
-    grid-gap: 15px;
-    margin-bottom: 10px;
-    .calaendarDateTime {
-      display: flex;
-      grid-gap: 15px;
-      align-items: center;
-      .mat-mdc-form-field-subscript-wrapper {
-        display: none;
-      }
-      .mat-mdc-form-field-infix { 
-        padding-left: 10px;
-        padding-right: 10px;
-      }
-      span.divider {
-        width: 25px;
-        height: 1px;
-        background-color: #757575;
-      }
-      input {
-        font-size: 16px !important;
-        font-weight: 400 !important;
-      }
-      .calaendarTime {
-        display: flex;
-        grid-gap: 15px;
-        align-items: center;
-        .mat-mdc-form-field-infix {
-          width: 100px;
-        }
-      }
-    }
+  pointer-events: none;
+  color: transparent;
 }
-.weekField {
-  mat-form-field {
-    width: auto !important;
+
+.no-year-dropdown .mat-calendar-period-button:hover {
+  background: none;
+}
+
+::ng-deep .mat-calendar-period-button {
+  pointer-events: none;
+  color: black !important;
+  cursor: default !important;
+}
+
+mat-datepicker-content {
+  mat-calendar.mat-calendar {
+    height: auto !important;
+
+  }
+}
+
+.calaendarDateWrapper {
+  display: flex;
+  align-items: center;
+  grid-gap: 15px;
+  margin-bottom: 10px;
+
+  .calaendarDateTime {
+    display: flex;
+    grid-gap: 15px;
+    align-items: center;
+
     .mat-mdc-form-field-subscript-wrapper {
       display: none;
     }
-    .mat-mdc-form-field-infix { 
+
+    .mat-mdc-form-field-infix {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    span.divider {
+      width: 25px;
+      height: 1px;
+      background-color: #757575;
+    }
+
+    input {
+      font-size: 16px !important;
+      font-weight: 400 !important;
+    }
+
+    .calaendarTime {
+      display: flex;
+      grid-gap: 15px;
+      align-items: center;
+
+      .mat-mdc-form-field-infix {
+        width: 100px;
+      }
+    }
+  }
+}
+
+.weekField {
+  mat-form-field {
+    width: auto !important;
+
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
+
+    .mat-mdc-form-field-infix {
       padding-left: 10px;
       padding-right: 10px;
     }
