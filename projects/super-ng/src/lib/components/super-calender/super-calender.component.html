@@ -15,9 +15,9 @@
   <div class="col-9">
     <div class="dayView">
       <mat-form-field>
-        <mat-select>
-          @for (food of foods; track food) {
-          <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+        <mat-select [(value)]="selectedView" (selectionChange)="onViewChange($event)">
+          @for (view of calenderViews; track view) {
+          <mat-option [value]="view.value">{{view.viewValue}}</mat-option>
           }
         </mat-select>
       </mat-form-field>
