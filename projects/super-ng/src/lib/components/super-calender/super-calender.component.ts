@@ -18,7 +18,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import timeGridPlugin from '@fullcalendar/timeGrid';
-import { SuperDialogComponent } from '../../../public-api';
+import { SEventdialogComponent, SuperDialogComponent } from '../../../public-api';
 import { SubscriptionUtils } from '../../utils/subscription.utils';
 
 
@@ -154,14 +154,30 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
   endDate: string = '';
 
   handleEventClick(info: any) {
+    
     debugger
-    this.title = info.event.title;
-    this.startDate = info.event.start ? info.event.start.toLocaleString() : 'N/A';
-    this.endDate = info.event.end ? info.event.end.toLocaleString() : 'N/A';
+    const event = {
+      title: info.event.title,
+      startDate : info.event.start ? info.event.start.toLocaleString() : 'N/A',
+      endDate : info.event.end ? info.event.end.toLocaleString() : 'N/A'
+    }
+   
     // const allDay = info.event.allDay ? 'Yes' : 'No'
 
-    this.showEventView = true;
-    console.log('event clicker')
+    const dialogRef = this.dialog.open(SEventdialogComponent, {
+      data: {
+        event: event,
+        info: info
+      },
+      // width: '250px',
+    });
+
+
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe(result => {
+      })
+    );
+
   }
 
   onDateSelect(event: any) {

@@ -1,0 +1,16 @@
+<div>
+    <button mat-icon-button mat-dialog-close>
+        <mat-icon>delete_outline</mat-icon>
+        <mat-icon (click)="deleteEvent()">close</mat-icon>
+      </button>
+</div>
+
+<mat-dialog-content class="mat-typography">
+    <h2>{{info.title}}</h2>
+    <span>{{eventDate}}</span>
+    <!-- <span>{{info.endDate}}</span> -->
+</mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <!-- <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Save</button> -->
+  </mat-dialog-actions>
