@@ -23,6 +23,7 @@
   --text-12: 12px;
   --font-500: 500;
   --text-10: 10px;
+  --text-14 : 14px;
 }
 * {
   font-family: var(--font-family) !important;
@@ -125,7 +126,7 @@ mat-month-view {
         font-size: var(--text-12);
       }
       td.mat-calendar-body-cell-container {
-        padding: 5% 0px !important;
+        padding: 6% 0px !important;
         font-weight: var(--font-500);
         button {
           width: 24px;
@@ -134,7 +135,7 @@ mat-month-view {
           bottom: 0;
           margin: auto;
           .mat-calendar-body-cell-content {
-            font-size: var(--text-10);
+            font-size: 13px;
             font-weight: var(--font-500);
           }
         }
@@ -178,10 +179,11 @@ full-calendar.fc.fc-media-screen {
   .fc-view-harness {
     border-radius: 28px;
     overflow: hidden;
+    background-color: #fff;
     table {
       border: none;
       thead {
-        background-color: var(--primary-white);
+        // background-color: var(--primary-white);
         tr {
           th {
             border-width: 0px 1px 0px 0px!important;
@@ -207,7 +209,7 @@ full-calendar.fc.fc-media-screen {
           border-right: unset;
         }
       }
-      background-color: var(--primary-white);
+      // background-color: var(--primary-white);
       .fc-daygrid-day-frame {
         .fc-daygrid-day-top {
           justify-content: center;
