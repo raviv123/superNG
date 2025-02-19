@@ -1,0 +1,60 @@
+.dialog-popup {
+    width: 100%;
+    padding: 10px;
+
+    .btn-box {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+    
+        button{
+            padding: 0 10px;
+            width: auto;
+            height: auto;
+            .mat-mdc-button-persistent-ripple{
+                &::before{
+                    display: none;
+                }
+           
+        }
+        .mat-mdc-button-touch-target{
+            display: none;
+            width: auto;
+            height: auto;
+        }
+        mat-icon{
+            width: auto;
+            height: auto;
+            font-size: 18px;
+        }
+
+        }
+    }   
+    mat-dialog-content.mat-mdc-dialog-content{
+        padding: 0;
+        .heading{
+            margin-left: 40px;
+            position: relative;
+            span {
+                position: absolute;
+                content: "";
+                width: 13px;
+                height: 13px;
+                left: -27px;
+                background: red;
+                top: 8px;
+                border-radius: 4px;
+            }
+        h1{
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom:0px;
+            line-height: normal;
+        }
+        p{
+            font-size: 13px;
+            margin-bottom: 0px;
+        }
+    }
+    }
+}

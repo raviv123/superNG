@@ -84,7 +84,6 @@ export class SuperDialogComponent {
       const formattedDate = currentDate.toISOString().split('T')[0];
 
       if (this.controls.allDaySelected) {
-        debugger
         this.controls.dateFrom = formattedDate;
         this.controls.dateTo = formattedDate;
         this.controls.date = formattedDate;

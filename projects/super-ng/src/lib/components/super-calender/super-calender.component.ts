@@ -289,7 +289,6 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
 
         const fromattedData = this.formatData(result)
         const calendarApi = this.calendarComponent.getApi();
-        debugger
         calendarApi.addEvent(fromattedData)
       })
     );
