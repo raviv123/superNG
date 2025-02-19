@@ -273,12 +273,14 @@ full-calendar.fc.fc-media-screen {
 
 // mat-mdc-dialog-panel
 .mat-mdc-dialog-panel{
+  min-width: 580px!important;
   mat-dialog-container{
       .mdc-dialog__container{
         .mdc-dialog__surface{
           mat-dialog-content{
             mat-form-field{
-              width: 100%;
+              flex: 1;
+              width:100%;
               .mat-mdc-text-field-wrapper{
                 background-color: transparent;
                 padding:0;
@@ -341,7 +343,7 @@ full-calendar.fc.fc-media-screen {
     mat-option{
       min-height:40px;
       .mdc-list-item__primary-text{
-        font-size:14px;
+        font-size:12px;
       }
     }
   }
