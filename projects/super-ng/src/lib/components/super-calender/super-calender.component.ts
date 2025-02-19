@@ -65,6 +65,7 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
   selected = model<Date | null>(null);
   readonly dialog = inject(MatDialog);
   isDayView: boolean = false
+  showEventView: boolean = false;
 
   ngOnInit(): void {
     this.calenderViews = this._getCalendarViews();
@@ -148,7 +149,18 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
     calendarApi.changeView(event.value);
   }
 
-  handleEventClick() {
+  title: string = '';
+  startDate: string = '';
+  endDate: string = '';
+
+  handleEventClick(info: any) {
+    debugger
+    this.title = info.event.title;
+    this.startDate = info.event.start ? info.event.start.toLocaleString() : 'N/A';
+    this.endDate = info.event.end ? info.event.end.toLocaleString() : 'N/A';
+    // const allDay = info.event.allDay ? 'Yes' : 'No'
+
+    this.showEventView = true;
     console.log('event clicker')
   }
 
@@ -169,6 +181,80 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
     this.openDialog(event, 'onCalenderClick');
   }
 
+
+  mergeDateTime(dateStr: string, timeStr: string) {
+    const date = new Date(dateStr); // Parse given date string in IST
+    const timeParts = timeStr.match(/(\d+):(\d+) (\w{2})/); // Extract time parts
+
+    if (!timeParts) return null; // Return null if time format is incorrect
+
+    let hours = parseInt(timeParts[1]);
+    const minutes = parseInt(timeParts[2]);
+    const meridian = timeParts[3];
+
+    // Convert 12-hour format to 24-hour format
+    if (meridian === "PM" && hours !== 12) hours += 12;
+    if (meridian === "AM" && hours === 12) hours = 0;
+
+    // Set extracted time into the existing Date object
+    date.setHours(hours, minutes, 0, 0);
+
+    // Convert to ISO 8601 format without timezone shift
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Ensure 2-digit month
+    const day = String(date.getDate()).padStart(2, '0'); // Ensure 2-digit day
+    const hour = String(date.getHours()).padStart(2, '0'); // Ensure 2-digit hours
+    const minute = String(date.getMinutes()).padStart(2, '0'); // Ensure 2-digit minutes
+    const second = String(date.getSeconds()).padStart(2, '0'); // Ensure 2-digit seconds
+
+    return `${year}-${month}-${day}T${hour}:${minute}:${second}`
+  }
+
+  formatDate(dateStr: string) {
+    const date = new Date(dateStr);
+    return date.toISOString().split(".")[0]; // Remove milliseconds
+  }
+
+  formatData(response: any) {
+    let eventDetails = {}
+    if (response.controls.allDaySelected) {
+
+      const endDate = new Date(response.controls.dateTo);
+      endDate.setDate(endDate.getDate() + 1);
+      eventDetails = {
+        title: response.controls.title || '(No title)',
+        start: response.controls.dateFrom, //this.formatDate(response.controls.dateFrom),
+        end: endDate,//response.controls.dateTo,//this.formatDate(response.controls.dateTo),
+        allDay: response.controls.allDaySelected,
+        // extendedProps: {
+        //   description: response.controls.title.description,
+        //   department: 'Sales',
+        //   priority: 'High'
+        // },
+
+        description: response.controls.title.description,
+      };
+
+    } else {
+      // let title = 
+      eventDetails = {
+        title: response.controls.title || '(No title)',
+        start: this.mergeDateTime(response.controls.date, response.controls.timeFrom),
+        end: this.mergeDateTime(response.controls.date, response.controls.timeTo),
+        allDay: response.controls.allDaySelected,
+        // extendedProps: {
+        //   description: response.controls.title.description,
+        //   department: 'Sales',
+        //   priority: 'High'
+        // }
+        description: response.controls.title.description,
+      };
+    }
+    return eventDetails
+
+  }
+
+
   openDialog(event: any, action: string) {
     const dialogRef = this.dialog.open(SuperDialogComponent, {
       data: {
@@ -182,8 +268,13 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
 
     this.subscription.add(
       dialogRef.afterClosed().subscribe(result => {
+        if (!result)
+          return;
+
+        const fromattedData = this.formatData(result)
         const calendarApi = this.calendarComponent.getApi();
-        calendarApi.addEvent(result.data)
+        debugger
+        calendarApi.addEvent(fromattedData)
       })
     );
   }

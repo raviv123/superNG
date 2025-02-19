@@ -1,7 +1,6 @@
 <mat-dialog-content class="mat-typography">
-
   <mat-form-field class="example-full-width">
-    <input matInput placeholder="Add title">
+    <input matInput placeholder="Add title" [(ngModel)]="controls.title">
   </mat-form-field>
   <div class="calaendarDateWrapper">
     <mat-icon>access_time</mat-icon>
@@ -63,8 +62,9 @@
       </mat-select>
     </mat-form-field>
   </div>
+    
   <mat-form-field class="example-full-width">
-    <textarea matInput placeholder="Add description"></textarea>
+    <textarea matInput [(ngModel)]="controls.description" placeholder="Add description"></textarea>
   </mat-form-field>
 
 </mat-dialog-content>

@@ -30,7 +30,9 @@ export class SuperDialogComponent {
     dateTo: '',
     date: '',
     eventReps: '',
-    allDaySelected: false
+    allDaySelected: false,
+    description: '',
+    title: ''
   }
 
   // allDaySelected: boolean = false;
@@ -57,17 +59,16 @@ export class SuperDialogComponent {
       const timeFrom = this.formatTime(this.data.event.dateStr);
       const timeTo = this.formatTime(this.data.event.dateStr, true);
 
-
       if (this.controls.allDaySelected) {
-        this.controls.dateFrom = this.data.event.dateStr;
-        this.controls.dateTo = this.data.event.dateStr;
-        this.controls.date = this.data.event.dateStr;
+        this.controls.dateFrom = this.data.event.date;
+        this.controls.dateTo = this.data.event.date;
+        this.controls.date = this.data.event.date;
         this.controls.timeFrom = "10:00 AM";
         this.controls.timeTo = "11:00 AM";
       } else {
-        this.controls.dateFrom = this.data.event.dateStr;
-        this.controls.dateTo = this.data.event.dateStr;
-        this.controls.date = this.data.event.dateStr;
+        this.controls.dateFrom = this.data.event.date;
+        this.controls.dateTo = this.data.event.date;
+        this.controls.date = this.data.event.date;
         this.controls.timeFrom = timeFrom;
         this.controls.timeTo = timeTo;
       }
@@ -83,6 +84,7 @@ export class SuperDialogComponent {
       const formattedDate = currentDate.toISOString().split('T')[0];
 
       if (this.controls.allDaySelected) {
+        debugger
         this.controls.dateFrom = formattedDate;
         this.controls.dateTo = formattedDate;
         this.controls.date = formattedDate;
