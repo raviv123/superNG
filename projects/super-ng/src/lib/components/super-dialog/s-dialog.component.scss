@@ -23,12 +23,16 @@ mat-datepicker-content {
 .calaendarDateWrapper {
   display: flex;
   align-items: center;
-  grid-gap: 15px;
+  grid-gap: 5px;
   margin-bottom: 10px;
-
+  mat-icon{
+    width: auto;
+    height: auto;
+    font-size: 18px;
+  }
   .calaendarDateTime {
     display: flex;
-    grid-gap: 15px;
+    grid-gap: 10px;
     width: 100%;
     align-items: center;
 
@@ -54,7 +58,7 @@ mat-datepicker-content {
 
     .calaendarTime {
       display: flex;
-      grid-gap: 15px;
+      grid-gap: 10px;
       align-items: center;
       width: 65%;
 
@@ -65,9 +69,14 @@ mat-datepicker-content {
   }
 }
 
+.mat-mdc-form-field-focus-overlay{
+  display: none;
+}
 .weekField {
+  width: 100%;
+  margin: 20px 0px;
   mat-form-field {
-    width: auto !important;
+    width: auto;
 
     .mat-mdc-form-field-subscript-wrapper {
       display: none;
