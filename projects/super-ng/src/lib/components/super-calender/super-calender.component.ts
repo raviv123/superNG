@@ -142,8 +142,6 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
     return (date1.getTime() - date2.getTime()) === 0;
   }
 
-
-
   onViewChange(event: MatSelectChange) {
     const calendarApi = this.calendarComponent.getApi();
     calendarApi.changeView(event.value);
@@ -154,14 +152,13 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
   endDate: string = '';
 
   handleEventClick(info: any) {
-    
-    debugger
+
     const event = {
       title: info.event.title,
-      startDate : info.event.start ? info.event.start.toLocaleString() : 'N/A',
-      endDate : info.event.end ? info.event.end.toLocaleString() : 'N/A'
+      startDate: info.event.start ? info.event.start.toLocaleString() : 'N/A',
+      endDate: info.event.end ? info.event.end.toLocaleString() : 'N/A'
     }
-   
+
     // const allDay = info.event.allDay ? 'Yes' : 'No'
 
     const dialogRef = this.dialog.open(SEventdialogComponent, {
@@ -175,6 +172,9 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
 
     this.subscription.add(
       dialogRef.afterClosed().subscribe(result => {
+        if (result.action == 'delete') {
+          info.event.remove();
+        }
       })
     );
 
@@ -238,6 +238,7 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
       const endDate = new Date(response.controls.dateTo);
       endDate.setDate(endDate.getDate() + 1);
       eventDetails = {
+        id: Date.now(),
         title: response.controls.title || '(No title)',
         start: response.controls.dateFrom, //this.formatDate(response.controls.dateFrom),
         end: endDate,//response.controls.dateTo,//this.formatDate(response.controls.dateTo),
@@ -254,6 +255,7 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
     } else {
       // let title = 
       eventDetails = {
+        id: Date.now(),
         title: response.controls.title || '(No title)',
         start: this.mergeDateTime(response.controls.date, response.controls.timeFrom),
         end: this.mergeDateTime(response.controls.date, response.controls.timeTo),

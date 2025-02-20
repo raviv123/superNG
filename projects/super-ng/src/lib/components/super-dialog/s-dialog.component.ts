@@ -96,7 +96,7 @@ export class SuperDialogComponent {
         this.controls.timeFrom = "08:00 AM";
         this.controls.timeTo = "09:00 AM";
       }
-
+        
     }
   }
 

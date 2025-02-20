@@ -1,15 +1,15 @@
 <div class="dialog-popup">
   <div class="btn-box">
-    <button mat-icon-button mat-dialog-close>
+    <button mat-icon-button>
       <mat-icon>edit</mat-icon>
 
     </button>
-    <button mat-icon-button mat-dialog-close>
-      <mat-icon>delete_outline</mat-icon>
+    <button mat-icon-button>
+      <mat-icon (click)="deleteEvent()">delete_outline</mat-icon>
     </button>
     
     <button mat-icon-button mat-dialog-close>
-      <mat-icon (click)="deleteEvent()">close</mat-icon>
+      <mat-icon >close</mat-icon>
     </button>
   </div>
     

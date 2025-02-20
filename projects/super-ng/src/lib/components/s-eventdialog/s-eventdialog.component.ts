@@ -34,20 +34,23 @@ export class SEventdialogComponent {
     endDate: ''
   };
 
+  eventId: string = ''
+
   constructor(public dialogRef: MatDialogRef<SEventdialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this._initialize()
   }
 
   private _initialize() {
-
     this.info.title = this.data.event.title;
     this.info.startDate = this.data.event.startDate;
     this.info.endDate = this.data.event.endDate;
+    this.eventId = this.data.info.event.id
 
     this._transformDataFormat()
 
   }
+  
 
   eventDate: string = ''
 
@@ -89,8 +92,6 @@ export class SEventdialogComponent {
   }
 
   deleteEvent(){
-
+    this.dialogRef.close({action: 'delete',id: this.eventId});
   }
-
-
 }
