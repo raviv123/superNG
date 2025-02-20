@@ -52,7 +52,7 @@ mat-datepicker-content {
     }
 
     input {
-      font-size: 16px !important;
+      font-size: 14px !important;
       font-weight: 400 !important;
     }
 
@@ -73,8 +73,8 @@ mat-datepicker-content {
   display: none;
 }
 .weekField {
-  width: 100%;
-  margin: 20px 0px;
+  width: 50%;
+  margin: 15px 0px;
   mat-form-field {
     width: auto;
 
@@ -87,4 +87,8 @@ mat-datepicker-content {
       padding-right: 10px;
     }
   }
+}
+.popup-close{
+  text-align: right;
+  padding: 10px 10px 0px 10px;
 }

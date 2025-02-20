@@ -279,6 +279,7 @@ full-calendar.fc.fc-media-screen {
       .mdc-dialog__container{
         .mdc-dialog__surface{
           mat-dialog-content{
+            padding-top: 0;
             mat-form-field{
               width:100%;
               .mat-mdc-select-value-text{
@@ -292,8 +293,11 @@ full-calendar.fc.fc-media-screen {
               }
               .mat-mdc-form-field-infix{
                 padding-bottom: 0px;
+                textarea{
+                  font-size: 14px;
+                }
               input{
-                font-size: 15px!important;
+                font-size: 14px!important;
                 font-weight: 500;
                 &::placeholder{
                   color:#1f1f1f;
