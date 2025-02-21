@@ -35,6 +35,8 @@ export class SuperDialogComponent {
     title: ''
   }
 
+  popupState: string = ''
+
   // allDaySelected: boolean = false;
   allDayChecked: boolean = false;
 
@@ -43,21 +45,27 @@ export class SuperDialogComponent {
     { value: 'daily', label: 'Daily' }
   ];
 
+  timeSlots: any[] = this._generateTimeSlots();
+
+
   constructor(public dialogRef: MatDialogRef<SuperDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.Initialize()
+    this._initialize()
   }
 
-  Initialize() {
+  private _initialize() {
     if (this.data.action == 'onCalenderClick') {
+      this.popupState ='create';
       if (this.data.event.view.type == 'dayGridMonth') {
         this.controls.allDaySelected = true;
       }
 
       this.controls.eventReps = 'notRepeat';
 
-      const timeFrom = this.formatTime(this.data.event.dateStr);
-      const timeTo = this.formatTime(this.data.event.dateStr, true);
+      const timeFrom = this._convertIntoformattedTime(this.data.event.dateStr);
+      const timeTo = this._convertIntoformattedTime(this.data.event.dateStr, true);
+
+      debugger
 
       if (this.controls.allDaySelected) {
         this.controls.dateFrom = this.data.event.date;
@@ -74,11 +82,9 @@ export class SuperDialogComponent {
       }
     }
     else if (this.data.action == 'createEventGLobal') {
-      // if (this.data.event.view.type == 'dayGridMonth') {
+      this.popupState ='create';
       this.controls.allDaySelected = false;
       this.controls.eventReps = 'notRepeat';
-      // allDayChecked
-      // }
 
       const currentDate = this.data.event.getDate();
       const formattedDate = currentDate.toISOString().split('T')[0];
@@ -95,67 +101,55 @@ export class SuperDialogComponent {
         this.controls.date = formattedDate;
         this.controls.timeFrom = "08:00 AM";
         this.controls.timeTo = "09:00 AM";
+
       }
-        
-    }
-  }
+    } else if (this.data.action == 'edit') {
+      debugger
+      this.popupState ='edit';
+      this.controls.allDaySelected = this.data.event.info.event.allDay;
+      const { timeFrom, timeTo } = this._fetchTimeFromDateInstance(this.data.event.info.event.start, this.data.event.info.event.end);
+      const endDate = this._substractOneDay(this.data.event.info.event.end);
+      this.controls.eventReps = 'notRepeat';
+      this.controls.title = this.data.event.info.event.title;
+      
+      
 
-  closeDialog() {
-    this.dialogRef.close({ data: { title: 'Meeting', start: '2025-02-15T10:00:00' }, controls: this.controls });
-  }
-
-  timeSlots: any[] = this.generateTimeSlots();
-
-  generateTimeSlots(): { value: string; viewValue: string }[] {
-    const times: { value: string; viewValue: string }[] = [];
-
-    for (let hour = 0; hour < 24; hour++) {
-      for (let minutes = 0; minutes < 60; minutes += 15) {
-        const period = hour < 12 ? 'AM' : 'PM';
-        let displayHour = hour % 12 || 12; // Convert 0 to 12 for AM/PM format
-        const h = displayHour.toString().padStart(2, '0');
-        const m = minutes.toString().padStart(2, '0');
-
-        const time12HourFormat = `${h}:${m} ${period}`;
-        times.push({ value: time12HourFormat, viewValue: time12HourFormat });
+      if (this.data.event.info.event.allDay) {
+        this.controls.dateFrom = this.data.event.info.event.start;
+        this.controls.dateTo = endDate as any;
+        this.controls.date = this.data.event.info.event.start;
+        this.controls.timeFrom = "08:00 AM";
+        this.controls.timeTo = "09:00 AM";
+      } else {
+        this.controls.dateFrom = this.data.event.info.event.start;
+        this.controls.dateTo = endDate as any;
+        this.controls.date = this.data.event.info.event.start;
+        this.controls.timeFrom = timeFrom;
+        this.controls.timeTo = timeTo;
       }
+
     }
 
-    return times;
+    console.log(this.controls)
   }
 
-  // selectTime(time: string) {
-  //   this.TimeFrom = time;
-  // }
-
-  onTimeSlotFromChange(event: any) {
-    this.controls.timeFrom = event.value;
-  }
-
-  onTimeSlotToChange(event: any) {
-    this.controls.timeTo = event.value;
-
+  private _substractOneDay(dateInstance: any) {
+    const date = new Date(dateInstance);
+    // Subtract one day
+    const newDate = new Date(date.getTime() - 24 * 60 * 60 * 1000)
+     return newDate
   }
 
 
-  onFromDateChange(event: any) {
-    this.controls.dateFrom = event.value
+  private _fetchTimeFromDateInstance(start: any, end: any) {
+    const startDate = new Date(start);
+    const endDate = new Date(start);
+
+    return { timeFrom: startDate.toLocaleTimeString(), timeTo: endDate.toLocaleTimeString() }
   }
 
-  onToDateChange(event: any) {
-    this.controls.dateTo = event.value
-  }
 
-  onCheckboxChange(event: any) {
-    // this.dateFrom = this.data.event.dateStr;
-    if (event.checked) {
-      this.controls.allDaySelected = true;
-    } else {
-      this.controls.allDaySelected = false;
-    }
-  }
-
-  formatTime(dateTime: string, plusOneHours: boolean = false): string {
+  private _convertIntoformattedTime(dateTime: string, plusOneHours: boolean = false): string {
     const date = new Date(dateTime);
 
     if (plusOneHours)
@@ -172,6 +166,48 @@ export class SuperDialogComponent {
     const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${period}`;
 
     return formattedTime;
+  }
+
+  private _generateTimeSlots(): { value: string; viewValue: string }[] {
+    const times: { value: string; viewValue: string }[] = [];
+
+    for (let hour = 0; hour < 24; hour++) {
+      for (let minutes = 0; minutes < 60; minutes += 15) {
+        const period = hour < 12 ? 'AM' : 'PM';
+        let displayHour = hour % 12 || 12; // Convert 0 to 12 for AM/PM format
+        const h = displayHour.toString().padStart(2, '0');
+        const m = minutes.toString().padStart(2, '0');
+
+        const time12HourFormat = `${h}:${m} ${period}`;
+        times.push({ value: time12HourFormat, viewValue: time12HourFormat });
+      }
+    }
+    return times;
+  }
+
+  closeDialog() {
+    this.dialogRef.close({ action: this.popupState, controls: this.controls });
+  }
+
+  onTimeSlotFromChange(event: any) {
+    this.controls.timeFrom = event.value;
+  }
+
+  onTimeSlotToChange(event: any) {
+    this.controls.timeTo = event.value;
+
+  }
+
+  onFromDateChange(event: any) {
+    this.controls.dateFrom = event.value
+  }
+
+  onToDateChange(event: any) {
+    this.controls.dateTo = event.value
+  }
+
+  onCheckboxChange(event: any) {
+    this.controls.allDaySelected = event.checked;
   }
 
   selectEventReps(event: any) {

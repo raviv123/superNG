@@ -161,19 +161,23 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
 
     // const allDay = info.event.allDay ? 'Yes' : 'No'
 
+    let data = {
+      event: event,
+      info: info
+    }
+
     const dialogRef = this.dialog.open(SEventdialogComponent, {
-      data: {
-        event: event,
-        info: info
-      },
+      data: data,
       // width: '250px',
     });
 
 
     this.subscription.add(
-      dialogRef.afterClosed().subscribe(result => {
-        if (result.action == 'delete') {
+      dialogRef.afterClosed().subscribe(response => {
+        if (response.action == 'delete') {
           info.event.remove();
+        } else if (response.action == 'edit') {
+          this.openDialog(data, response.action, info.event, response.id)
         }
       })
     );
@@ -226,12 +230,7 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
     return `${year}-${month}-${day}T${hour}:${minute}:${second}`
   }
 
-  formatDate(dateStr: string) {
-    const date = new Date(dateStr);
-    return date.toISOString().split(".")[0]; // Remove milliseconds
-  }
-
-  formatData(response: any) {
+  getEventFormattedData(response: any) {
     let eventDetails = {}
     if (response.controls.allDaySelected) {
 
@@ -243,13 +242,12 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
         start: response.controls.dateFrom, //this.formatDate(response.controls.dateFrom),
         end: endDate,//response.controls.dateTo,//this.formatDate(response.controls.dateTo),
         allDay: response.controls.allDaySelected,
-        // extendedProps: {
-        //   description: response.controls.title.description,
-        //   department: 'Sales',
-        //   priority: 'High'
-        // },
-
-        description: response.controls.title.description,
+        extendedProps: {
+          description: response.controls.description,
+          // department: 'Sales',
+          // priority: 'High'
+        },
+        // description: response.controls.title.description,
       };
 
     } else {
@@ -260,12 +258,12 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
         start: this.mergeDateTime(response.controls.date, response.controls.timeFrom),
         end: this.mergeDateTime(response.controls.date, response.controls.timeTo),
         allDay: response.controls.allDaySelected,
-        // extendedProps: {
-        //   description: response.controls.title.description,
-        //   department: 'Sales',
-        //   priority: 'High'
-        // }
-        description: response.controls.title.description,
+        extendedProps: {
+          description: response.controls.description,
+          // department: 'Sales',
+          // priority: 'High'
+        }
+        // description: response.controls.title.description,
       };
     }
     return eventDetails
@@ -273,7 +271,7 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
   }
 
 
-  openDialog(event: any, action: string) {
+  openDialog(event: any, action: string, existingEvent?: any, oldEventId?: any) {
     const dialogRef = this.dialog.open(SuperDialogComponent, {
       data: {
         event: event,
@@ -285,17 +283,29 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
     this.afterDialogOpened.emit(dialogRef);
 
     this.subscription.add(
-      dialogRef.afterClosed().subscribe(result => {
-        if (!result)
+      dialogRef.afterClosed().subscribe(response => {
+        if (!response)
           return;
+        if (response.action == 'create') {
+          const fromattedData = this.getEventFormattedData(response)
+          const calendarApi = this.calendarComponent.getApi();
+          calendarApi.addEvent(fromattedData)
+        } else if (response.action == 'edit') {
+          debugger
+          let calendarApi = this.calendarComponent.getApi(); // Get FullCalendar API
+          let oldEvent = calendarApi.getEventById(oldEventId); // Find event by ID
+          if (oldEvent) { 
+            const updatedEvent = this.getEventFormattedData(response)
+            oldEvent.remove();
+            calendarApi.addEvent(updatedEvent)
+          }
+          // const fromattedData: any = this.getEventFormattedData(response)
+          // existingEvent.setProp('title', fromattedData.title)
 
-        const fromattedData = this.formatData(result)
-        const calendarApi = this.calendarComponent.getApi();
-        calendarApi.addEvent(fromattedData)
+        }
       })
     );
   }
-
 }
 
 interface DropdownOption {

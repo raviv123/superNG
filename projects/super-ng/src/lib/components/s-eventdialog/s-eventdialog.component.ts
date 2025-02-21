@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Inject, Output, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -14,8 +14,7 @@ import { NgxMatTimepickerModule, NgxMatTimepickerComponent, NgxMatTimepickerDire
 
 interface eventDialog {
   title: string,
-  startDate: string,
-  endDate: string
+  description: string
 }
 
 @Component({
@@ -27,14 +26,14 @@ interface eventDialog {
   encapsulation: ViewEncapsulation.None,
 })
 export class SEventdialogComponent {
-
-  info: eventDialog = {
+  
+  viewItems: eventDialog = {
     title: '',
-    startDate: '',
-    endDate: ''
+    description: ''
   };
 
-  eventId: string = ''
+  eventId: string = '';
+  timeDuration: string = ''
 
   constructor(public dialogRef: MatDialogRef<SEventdialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -42,26 +41,19 @@ export class SEventdialogComponent {
   }
 
   private _initialize() {
-    this.info.title = this.data.event.title;
-    this.info.startDate = this.data.event.startDate;
-    this.info.endDate = this.data.event.endDate;
-    this.eventId = this.data.info.event.id
+    this.viewItems.title = this.data.event.title;
+    this.eventId = this.data.info.event.id;
 
-    this._transformDataFormat()
+    this.viewItems.description =  this.data.info.event.extendedProps.description
+    this.timeDuration =  this._getEventTimeDuration()
 
   }
   
-
-  eventDate: string = ''
-
-  private _transformDataFormat() {
-    if (this.data.info.event.allDay) {
-      this.eventDate = this._convertFormattedDate(this.data.event.startDate)
-    } else {
-      this.eventDate = this._convertFormatIntoHoursFormat(this.data.event.startDate, this.data.event.endDate)
-    }
+  private _getEventTimeDuration() {
+      return this.data.info.event.allDay ? this._getDurationInDays(this.data.event.startDate, this.data.event.endDate) : this._getDurationInDaysHours(this.data.event.startDate, this.data.event.endDate)
   }
-  private _convertFormatIntoHoursFormat(startDateStr: string,endDateStr: string): string {
+
+  private _getDurationInDaysHours(startDateStr: string,endDateStr: string): string {
     // Convert strings to Date objects
     const startDate = new Date(startDateStr);
     const endDate = new Date(endDateStr);
@@ -83,15 +75,47 @@ export class SEventdialogComponent {
     return `${formattedDate}⋅${startTime} – ${endTime}`;
   }
 
-  private _convertFormattedDate(date: string) {
-    const dateInstance = new Date(date); // Convert to Date object
+  private _getDurationInDays(date1: string, date2: string): string {
+    const dateInstance1 = new Date(date1);
+    const dateInstance2 = new Date(date2);
 
-    // Format the output
-    const options: any = { weekday: 'long', month: 'long', day: 'numeric' };
-    return dateInstance.toLocaleDateString('en-US', options);
-  }
+    // Reset time to ignore time differences
+    dateInstance1.setHours(0, 0, 0, 0);
+    dateInstance2.setHours(0, 0, 0, 0);
+
+    // Calculate the difference in days
+    const diffInMs = Math.abs(dateInstance2.getTime() - dateInstance1.getTime());
+    const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+
+    // Define date formatting options
+    const optionsWithoutYear: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric' };
+    const optionsWithYear: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric', year: 'numeric' };
+
+    // If more than one day apart
+    if (diffInDays > 1) {
+        const year1 = dateInstance1.getFullYear();
+        const year2 = dateInstance2.getFullYear();
+
+        // If years are different, include years in both dates
+        if (year1 !== year2) {
+            return `${dateInstance1.toLocaleDateString('en-US', optionsWithYear)} – ${dateInstance2.toLocaleDateString('en-US', optionsWithYear)}`;
+        }
+
+        // If years are the same, show only month & day range
+        return `${dateInstance1.toLocaleDateString('en-US', optionsWithoutYear)} – ${dateInstance2.toLocaleDateString('en-US', optionsWithoutYear)}, ${year1}`;
+    }
+
+    // Otherwise, return a single formatted date
+    return dateInstance1.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+}
+
 
   deleteEvent(){
     this.dialogRef.close({action: 'delete',id: this.eventId});
+  }
+
+  
+  inEditEvent() {
+    this.dialogRef.close({action: 'edit',id: this.eventId});
   }
 }

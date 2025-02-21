@@ -59,6 +59,23 @@
         }
     }
     }
+   .content{
+        width: 100%;
+        margin-top: 10px;
+        p.details{
+            font-size: 18px!important;
+            margin-bottom: 6px;
+            position: relative;
+            mat-icon{
+                font-size: 19px;
+                width: auto;
+                height: auto;
+                position: absolute;
+                left: -25px;
+            }
+        }
+
+    }
     mat-dialog-actions{
         display: none;
     }

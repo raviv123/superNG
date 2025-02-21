@@ -1,28 +1,31 @@
 <div class="dialog-popup">
   <div class="btn-box">
     <button mat-icon-button>
-      <mat-icon>edit</mat-icon>
+      <mat-icon (click)="inEditEvent()">edit</mat-icon>
 
     </button>
     <button mat-icon-button>
       <mat-icon (click)="deleteEvent()">delete_outline</mat-icon>
     </button>
-    
+
     <button mat-icon-button mat-dialog-close>
-      <mat-icon >close</mat-icon>
+      <mat-icon>close</mat-icon>
     </button>
   </div>
-    
 
-<mat-dialog-content class="mat-typography">
-  <div class="heading">
-    <span></span>
-    <div class="head">
-    <h1>{{info.title}}</h1>
-    <p>{{eventDate}}</p>
-  </div>
-  </div>
-</mat-dialog-content>
+
+  <mat-dialog-content class="mat-typography">
+    <div class="heading">
+      <span></span>
+      <div class="head">
+        <h1>{{viewItems.title}}</h1>
+        <p>{{timeDuration}}</p>
+        <div  class="content">
+          <p *ngIf='viewItems.description' class="details"><mat-icon>description</mat-icon>{{viewItems.description}}</p>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
   <mat-dialog-actions align="end">
     <!-- <button mat-button mat-dialog-close>Cancel</button>
     <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Save</button> -->
