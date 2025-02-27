@@ -125,7 +125,7 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
       editable: true, // Enables drag & drop
       selectable: true, // Enables selection
       dateClick: this.handleDateClick.bind(this), // Click event
-      // select: this.handleSelect.bind(this),  // Range selection
+      select: this.handleSelect.bind(this),  // Range selection
       eventClick: this.handleEventClick.bind(this),
       // eventDrop: this.handleEventDrop.bind(this),
       events: this.events
@@ -194,11 +194,21 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
     this.openDialog(calendarApi, 'createEventGLobal')
   }
 
-  handleDateClick(event: any) {
+  handleSelect(event: any) {
+    console.log(event, 'click');
     this.dateTimeClick.emit(event);
     if (this.readonlyView) return;
 
     this.openDialog(event, 'onCalenderClick');
+
+  }
+
+  handleDateClick(event: any) {
+    // console.log(event, 'click');
+    // this.dateTimeClick.emit(event);
+    // if (this.readonlyView) return;
+
+    // this.openDialog(event, 'onCalenderClick');
   }
 
 
@@ -231,17 +241,26 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
   }
 
   getEventFormattedData(response: any) {
-    let eventDetails = {}
-    if (response.controls.allDaySelected) {
 
+    let eventDetails = {};
+
+    const {startRecur, endRecur} = this._getReoccurence(response);
+
+    debugger
+    
+
+    if (response.controls.allDaySelected) {
       const endDate = new Date(response.controls.dateTo);
       endDate.setDate(endDate.getDate() + 1);
       eventDetails = {
         id: Date.now(),
         title: response.controls.title || '(No title)',
         start: response.controls.dateFrom, //this.formatDate(response.controls.dateFrom),
-        end: endDate,//response.controls.dateTo,//this.formatDate(response.controls.dateTo),
+        end: endDate, //response.controls.dateTo,//this.formatDate(response.controls.dateTo),
         allDay: response.controls.allDaySelected,
+        // startRecur: startRecur,
+        // endRecur: endRecur,
+        // daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
         extendedProps: {
           description: response.controls.description,
           // department: 'Sales',
@@ -257,6 +276,9 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
         title: response.controls.title || '(No title)',
         start: this.mergeDateTime(response.controls.date, response.controls.timeFrom),
         end: this.mergeDateTime(response.controls.date, response.controls.timeTo),
+        // startRecur: startRecur,
+        // endRecur: endRecur,
+        // daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
         allDay: response.controls.allDaySelected,
         extendedProps: {
           description: response.controls.description,
@@ -267,9 +289,21 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
       };
     }
     return eventDetails
-
   }
+  private _getReoccurence(response: any) {
+    if (response.controls.eventReps == 'daily') {
+      let currentDate = response.controls.dateFrom;
+      const lastDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+      let startRecur = currentDate.toISOString().split('T')[0];
+      let endRecur = lastDate.toISOString().split('T')[0];
 
+      return { startRecur, endRecur }
+    } else {
+      let startRecur = null;
+      let endRecur = null;
+      return { startRecur, endRecur }
+    }
+  }
 
   openDialog(event: any, action: string, existingEvent?: any, oldEventId?: any) {
     const dialogRef = this.dialog.open(SuperDialogComponent, {
@@ -291,17 +325,13 @@ export class SuperCalenderComponent extends SubscriptionUtils implements OnInit,
           const calendarApi = this.calendarComponent.getApi();
           calendarApi.addEvent(fromattedData)
         } else if (response.action == 'edit') {
-          debugger
           let calendarApi = this.calendarComponent.getApi(); // Get FullCalendar API
           let oldEvent = calendarApi.getEventById(oldEventId); // Find event by ID
-          if (oldEvent) { 
+          if (oldEvent) {
             const updatedEvent = this.getEventFormattedData(response)
             oldEvent.remove();
             calendarApi.addEvent(updatedEvent)
           }
-          // const fromattedData: any = this.getEventFormattedData(response)
-          // existingEvent.setProp('title', fromattedData.title)
-
         }
       })
     );

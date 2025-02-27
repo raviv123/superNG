@@ -55,64 +55,55 @@ export class SuperDialogComponent {
 
   private _initialize() {
     if (this.data.action == 'onCalenderClick') {
-      this.popupState ='create';
-      if (this.data.event.view.type == 'dayGridMonth') {
-        this.controls.allDaySelected = true;
-      }
-
+      this.popupState = 'create';
+      this.controls.allDaySelected = this.data.event.allDay;
       this.controls.eventReps = 'notRepeat';
+      const endDate = this.data.event.view.type != "timeGridDay" ? this._substractOneDay(this.data.event.end) : this.data.event.end;
 
-      const timeFrom = this._convertIntoformattedTime(this.data.event.dateStr);
-      const timeTo = this._convertIntoformattedTime(this.data.event.dateStr, true);
-
-      debugger
+      const { timeFrom, timeTo } = this._fetchTimeFromDateInstance(this.data.event.startStr, this.data.event.endStr);
 
       if (this.controls.allDaySelected) {
-        this.controls.dateFrom = this.data.event.date;
-        this.controls.dateTo = this.data.event.date;
-        this.controls.date = this.data.event.date;
+        this.controls.dateFrom = this.data.event.start;
+        this.controls.dateTo = endDate;
+        this.controls.date = this.data.event.start;
         this.controls.timeFrom = "10:00 AM";
         this.controls.timeTo = "11:00 AM";
       } else {
-        this.controls.dateFrom = this.data.event.date;
-        this.controls.dateTo = this.data.event.date;
-        this.controls.date = this.data.event.date;
+        this.controls.dateFrom = this.data.event.start;
+        this.controls.dateTo = endDate;
+        this.controls.date = this.data.event.start;
         this.controls.timeFrom = timeFrom;
         this.controls.timeTo = timeTo;
       }
     }
     else if (this.data.action == 'createEventGLobal') {
-      this.popupState ='create';
+      this.popupState = 'create';
       this.controls.allDaySelected = false;
       this.controls.eventReps = 'notRepeat';
 
       const currentDate = this.data.event.getDate();
-      const formattedDate = currentDate.toISOString().split('T')[0];
 
       if (this.controls.allDaySelected) {
-        this.controls.dateFrom = formattedDate;
-        this.controls.dateTo = formattedDate;
-        this.controls.date = formattedDate;
+        this.controls.dateFrom = currentDate;
+        this.controls.dateTo = currentDate;
+        this.controls.date = currentDate;
         this.controls.timeFrom = "08:00 AM";
         this.controls.timeTo = "09:00 AM";
       } else {
-        this.controls.dateFrom = formattedDate;
-        this.controls.dateTo = formattedDate;
-        this.controls.date = formattedDate;
+        this.controls.dateFrom = currentDate;
+        this.controls.dateTo = currentDate;
+        this.controls.date = currentDate;
         this.controls.timeFrom = "08:00 AM";
         this.controls.timeTo = "09:00 AM";
 
       }
     } else if (this.data.action == 'edit') {
-      debugger
-      this.popupState ='edit';
+      this.popupState = 'edit';
       this.controls.allDaySelected = this.data.event.info.event.allDay;
       const { timeFrom, timeTo } = this._fetchTimeFromDateInstance(this.data.event.info.event.start, this.data.event.info.event.end);
-      const endDate = this._substractOneDay(this.data.event.info.event.end);
+      const endDate = this.data.event.info.view.type != "timeGridDay" ? this._substractOneDay(this.data.event.info.event.end) : this.data.event.info.event.end;
       this.controls.eventReps = 'notRepeat';
       this.controls.title = this.data.event.info.event.title;
-      
-      
 
       if (this.data.event.info.event.allDay) {
         this.controls.dateFrom = this.data.event.info.event.start;
@@ -120,53 +111,57 @@ export class SuperDialogComponent {
         this.controls.date = this.data.event.info.event.start;
         this.controls.timeFrom = "08:00 AM";
         this.controls.timeTo = "09:00 AM";
+        this.controls.description = this.data.event.info.event.extendedProps.description;
       } else {
         this.controls.dateFrom = this.data.event.info.event.start;
         this.controls.dateTo = endDate as any;
         this.controls.date = this.data.event.info.event.start;
         this.controls.timeFrom = timeFrom;
         this.controls.timeTo = timeTo;
+        this.controls.description = this.data.event.info.event.extendedProps.description;
       }
-
+      console.log(this.controls)
     }
-
-    console.log(this.controls)
   }
 
   private _substractOneDay(dateInstance: any) {
     const date = new Date(dateInstance);
     // Subtract one day
     const newDate = new Date(date.getTime() - 24 * 60 * 60 * 1000)
-     return newDate
+    return newDate
   }
 
 
   private _fetchTimeFromDateInstance(start: any, end: any) {
     const startDate = new Date(start);
-    const endDate = new Date(start);
+    const endDate = new Date(end);
 
-    return { timeFrom: startDate.toLocaleTimeString(), timeTo: endDate.toLocaleTimeString() }
+    return {
+      timeFrom: startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
+      timeTo: endDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })
+    };
   }
 
 
-  private _convertIntoformattedTime(dateTime: string, plusOneHours: boolean = false): string {
-    const date = new Date(dateTime);
 
-    if (plusOneHours)
-      date.setHours(date.getHours() + 1);
+  // private _convertIntoformattedTime(dateTime: string, plusOneHours: boolean = false): string {
+  //   const date = new Date(dateTime);
 
-    let hours = date.getHours();
-    const minutes = date.getMinutes();
-    const period = hours < 12 ? 'AM' : 'PM';
+  //   if (plusOneHours)
+  //     date.setHours(date.getHours() + 1);
 
-    // Convert 24-hour format to 12-hour format
-    hours = hours % 12 || 12;
+  //   let hours = date.getHours();
+  //   const minutes = date.getMinutes();
+  //   const period = hours < 12 ? 'AM' : 'PM';
 
-    // Format hours and minutes properly
-    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${period}`;
+  //   // Convert 24-hour format to 12-hour format
+  //   hours = hours % 12 || 12;
 
-    return formattedTime;
-  }
+  //   // Format hours and minutes properly
+  //   const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${period}`;
+
+  //   return formattedTime;
+  // }
 
   private _generateTimeSlots(): { value: string; viewValue: string }[] {
     const times: { value: string; viewValue: string }[] = [];

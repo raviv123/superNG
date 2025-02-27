@@ -44,9 +44,17 @@ export class SEventdialogComponent {
     this.viewItems.title = this.data.event.title;
     this.eventId = this.data.info.event.id;
 
-    this.viewItems.description =  this.data.info.event.extendedProps.description
+    this.viewItems.description =  this.data.info.event.extendedProps.description;
+    this.data.event.endDate = this._substractOneDay(this.data.event.endDate);
     this.timeDuration =  this._getEventTimeDuration()
 
+  }
+
+  private _substractOneDay(dateInstance: any) {
+    const date = new Date(dateInstance);
+    // Subtract one day
+    const newDate = new Date(date.getTime() - 24 * 60 * 60 * 1000)
+     return newDate
   }
   
   private _getEventTimeDuration() {
@@ -114,7 +122,6 @@ export class SEventdialogComponent {
     this.dialogRef.close({action: 'delete',id: this.eventId});
   }
 
-  
   inEditEvent() {
     this.dialogRef.close({action: 'edit',id: this.eventId});
   }
