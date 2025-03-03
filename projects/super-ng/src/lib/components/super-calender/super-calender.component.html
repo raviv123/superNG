@@ -1,15 +1,38 @@
-
 <div class="cs-row">
+  <!-- Left Side bar -->
+  @if(showLeftSidebar) {
   <div class="col-4">
-<button mat-button (click)="onCreateClick()" class="create-event"> Create</button>
-` `
-<mat-card class="demo-inline-calendar-card">
-  <mat-calendar #datepicker ngSkipHydration [(selected)]="selected"
-  (selectedChange)="onDateSelect($event)"></mat-calendar>
-</mat-card>
-</div>
-<div class="col-9">
+    @if(!readonlyView) {
+    <ng-container *ngTemplateOutlet="createButton"></ng-container>
+    }
+    <mat-card class="demo-inline-calendar-card">
+      <mat-calendar #datepicker ngSkipHydration [(selected)]="selected"
+        (selectedChange)="onDateSelect($event)"></mat-calendar>
+    </mat-card>
+  </div>
+  }
+
+  <div class="col-9">
+    @if(!showLeftSidebar && !readonlyView) {
+    <ng-container *ngTemplateOutlet="createButton"></ng-container>
+    }
+    
+    <div class="dayView">
+      <mat-form-field>
+        <mat-select [(value)]="selectedView" (selectionChange)="onViewChange($event)">
+          @for (view of calenderViews; track view) {
+          <mat-option [value]="view.value">{{view.label}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
     <full-calendar #calendar [options]="calendarOptions"></full-calendar>
-</div>
+  </div>
 </div>
 
+<ng-template #createButton>
+  <button mat-button (click)="onCreateClick()" class="create-event">
+    <span>+</span>
+    {{createButtonText}}
+  </button>
+</ng-template>

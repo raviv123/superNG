@@ -1,111 +1,143 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 .demo-inline-calendar-card {
-    width: 300px;
-  }
-
-  ::ng-deep{
-    s-calender{
-        display: flex;
-        align-items:flex-start;
-        gap: 12px;
-      }
-      full-calendar{
-        flex:1
-      }
-  }
-*{
-  font-family: "Poppins", serif!important;
-
+  width: 300px;
 }
-body{
-  background-color: #f8fafd;
+
+::ng-deep {
+  s-calender {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  full-calendar {
+    flex: 1;
+  }
+}
+
+:root {
+  --font-family: "Poppins", serif;
+  --white-500: #f8fafd;
+  --primary-white: #fff;
+  --black: #000;
+  --grey: #28282852;
+  --text-12: 12px;
+  --font-500: 500;
+  --text-10: 10px;
+  --text-14 : 14px;
+}
+* {
+  font-family: var(--font-family) !important;
+}
+body {
+  background-color: var(--white-500);
   padding: 10px 0px;
+  overflow: hidden;
 }
-.cs-row{
+.cs-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
   width: 100%;
-  .col-4{
-    max-width:17%;
+  .col-4 {
+    max-width: 256px;
     padding: 0px 15px;
     flex: 1;
-    .create-event{
+    .create-event {
       width: auto;
       max-width: 100%;
-      padding: 16px 20px;
+      padding: 16px 30px;
       gap: 12px;
-      background-color: #fff;
-      border-radius: 11px;
-      border: 1px solid #28282852;
-      color: #000;
+      background-color: var(--primary-white);
+      border-radius: 18px;
+      border: 1px solid var(--grey);
+      color: var(--black);
+      height: 56px;
+      box-shadow: 0px 0px 1px #b9adad;
+      .mdc-button__label{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+          span{
+            font-size: 24px;
+            font-weight: 400;
+          }
       }
-      mat-card{
-        width: 100%;
-        margin-top: 20px;
-        background-color: transparent;
-        box-shadow: none;
-        mat-calendar{
-          .mat-calendar-header{
-            padding: 0;
-            .mat-calendar-controls{
-              margin: 0;
-              button{
-                .mdc-button__label{
-                   span{
-                    font-size: 12px;
-                    font-weight: 500;
-                    letter-spacing: 0;
-                    line-height: 1.25rem;
-                   }
+    }
+    mat-card {
+      width: 100%;
+      margin-top: 20px;
+      background-color: transparent;
+      box-shadow: none;
+      mat-calendar {
+        .mat-calendar-header {
+          padding: 0 5px;
+          .mat-calendar-controls {
+            margin: 0;
+            button {
+              margin: 0 ;
+              .mdc-button__label {
+                span {
+                  font-size: var(--text-14);
+                  font-weight: var(--font-500);
+                  letter-spacing: 0;
+                  line-height: 1.25rem;
                 }
               }
-              .mat-calendar-previous-button{
-
+            }
+            .mat-calendar-previous-button.mat-mdc-button-base , .mat-calendar-next-button.mat-mdc-button-base{
+              padding: 5px;
+              margin-right: 6px;
+              width: auto;
+              height: auto;
+              display: inline-flex;
+              svg{
+                width: 20px;
+                height: 20px;
+              }
+              .mat-mdc-button-touch-target{
+                width: auto;
+                height: auto;
               }
             }
           }
         }
-         
-        }
       }
-  
-  .col-9{
-    width: 65%;
+    }
+  }
+
+  .col-9 {
+    width: calc(100% - 250px);
     padding: 0px 15px;
     flex: 1;
   }
 }
 
-
-// claeder Design
-
-mat-month-view{
-  table{
-    thead.mat-calendar-table-header{
-      tr{
-        th{
+// calender Design
+mat-month-view {
+  table {
+    thead.mat-calendar-table-header {
+      tr {
+        th {
           padding: 0;
           font-size: 10px;
         }
       }
     }
-    tbody.mat-calendar-body{
-      .mat-calendar-body-label{
-        font-size: 12px;
+    tbody.mat-calendar-body {
+      .mat-calendar-body-label {
+        font-size: var(--text-12);
       }
-      td.mat-calendar-body-cell-container{
-        padding: 5% 0px!important;
-        font-weight: 500;
-        button{
-          width: 24px;
-          height: 24px;
+      td.mat-calendar-body-cell-container {
+        padding: 7% 0px !important;
+        font-weight: var(--font-500);
+        button {
+          width:30px;
+          height: 30px;
           right: 0;
           bottom: 0;
           margin: auto;
-          .mat-calendar-body-cell-content{
-            font-size: 10px;
-            font-weight: 500;
+          .mat-calendar-body-cell-content {
+            font-size: 13px;
+            font-weight: var(--font-500);
           }
         }
       }
@@ -114,23 +146,24 @@ mat-month-view{
 }
 
 // multiyears
-mat-multi-year-view ,mat-year-view{
-  table{
-    thead{
+mat-multi-year-view,
+mat-year-view {
+  table {
+    thead {
       display: none;
-    } 
-    tbody{
-      tr{
-        td{
-          padding: 6%!important;
-          button{
-            span{
-              font-size: 10px;
+    }
+    tbody {
+      tr {
+        td {
+          padding: 6% !important;
+          button {
+            span {
+              font-size: 13px;
               font-weight: 500;
             }
-          } 
+          }
         }
-        .mat-calendar-body-label{
+        .mat-calendar-body-label {
           font-size: 12px;
         }
       }
@@ -138,3 +171,204 @@ mat-multi-year-view ,mat-year-view{
   }
 }
 
+// full calender
+full-calendar.fc.fc-media-screen {
+  width: 100%;
+  table.fc-scrollgrid-liquid {
+    height: calc(100vh - 80px);
+  }
+  .fc-view-harness {
+    border-radius: 28px;
+    overflow: hidden;
+    background-color: #fff;
+    table {
+      border: none;
+      thead {
+        // background-color: var(--primary-white);
+        tr {
+          th {
+            border-width: 0px 1px 0px 0px!important;
+            .fc-scrollgrid-sync-inner {
+              a {
+                font-size: 11px;
+                font-weight: var(--font-500);
+              }
+            }
+          }
+        }
+      }
+    }
+    tbody {
+      tr {
+        td {
+          border-left: unset;
+          .fc-daygrid-day-events{
+              min-height: auto;
+          }
+        }
+        &:last-child {
+          border-right: unset;
+        }
+      }
+      // background-color: var(--primary-white);
+      .fc-daygrid-day-frame {
+        .fc-daygrid-day-top {
+          justify-content: center;
+          font-size: var(--text-12);
+          font-weight: var(--font-500);
+        }
+      }
+    }
+  }
+  div.fc-header-toolbar.fc-toolbar-ltr {
+    justify-content: unset;
+    align-items: center;
+    margin-bottom: 10px;
+    .fc-toolbar-chunk {
+      button.fc-today-button {
+        background-color: transparent;  
+        color: var(--black);
+        padding: 9px 20px;
+        border-radius: 100px;
+        cursor: pointer;
+        margin-right: 20px;
+        font-size: 14px;
+      }
+      .fc-button-group {
+        margin: 0;
+
+        button {
+          background-color: transparent;
+          border: none;
+          color: var(--black);
+          padding: 0px 10px;
+          &:focus {
+            box-shadow: none;
+          }
+          &:active {
+            background-color: unset;
+            color: var(--black);
+            box-shadow: none !important;
+          }
+        }
+      }
+      .fc-toolbar-title {
+        font-size: 22px;
+        padding: 0px 8px;
+        margin-left: 15px;
+      }
+    }
+    :last-child {
+      margin: 0 0 0 auto;
+      .fc-dayGridMonth-button,
+      .fc-timeGridWeek-button,
+      .fc-timeGridDay-button {
+        display: none;
+      }
+    }
+  }
+
+
+}
+
+
+// mat-mdc-dialog-panel
+.mat-mdc-dialog-panel{
+  min-width: 35vw!important;
+  mat-dialog-container{
+      .mdc-dialog__container{
+        .mdc-dialog__surface{
+          mat-dialog-content{
+            padding-top: 0;
+            mat-form-field{
+              width:100%;
+              .mat-mdc-select-value-text{
+                .mat-mdc-select-min-line{
+                  font-size: 14px;
+                }
+              }
+              .mat-mdc-text-field-wrapper{
+                background-color: transparent;
+                padding:0;
+              }
+              .mat-mdc-form-field-infix{
+                padding-bottom: 0px;
+                textarea{
+                  font-size: 14px;
+                }
+              input{
+                font-size: 14px!important;
+                font-weight: 500;
+                &::placeholder{
+                  color:#1f1f1f;
+                  font-size: 15px;
+                }
+              }
+            }
+          }
+        }
+
+        mat-dialog-actions{
+          position: relative;
+          &::before{
+            position: absolute;
+            content: "";
+            box-shadow: inset 0 -2px 2px -1px rgba(0,0,0,.12);
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 4px;
+          }
+          
+        }
+      }
+    }
+  }
+}
+
+// day calender
+.dayView {
+    position: absolute;
+    right: 20px;
+    border-radius: 40px;
+    overflow: hidden;
+  .mat-mdc-text-field-wrapper.mdc-text-field{
+    background-color:#ececec;
+    
+  }
+  .mat-mdc-form-field-infix {
+    padding: 8px !important;
+    min-height: inherit !important;
+    width: 120px;
+  }
+  .mat-mdc-form-field-subscript-wrapper, .mdc-line-ripple {
+    display:none;
+  }
+}
+.cdk-overlay-container{
+  .mat-mdc-select-panel{
+    background-color: #ffffff;
+    padding:0; 
+    mat-option{
+      min-height:40px;
+      padding: 0px 10px;
+      .mdc-list-item__primary-text{
+        font-size:12px;
+        margin-right: 0;
+
+      }
+      .mat-pseudo-checkbox{
+        margin-left: 0;
+      }
+      .mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after{
+        width: 10px;
+        height: 5px;
+        left: 5px;
+      }
+    }
+  }
+
+}
+.cdk-global-scrollblock{
+  overflow: hidden;
+}

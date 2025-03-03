@@ -30,6 +30,7 @@
     "@fullcalendar/list": "^6.1.15",
     "@fullcalendar/timegrid": "^6.1.15",
     "express": "^4.18.2",
+    "ngx-mat-timepicker": "^18.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"
